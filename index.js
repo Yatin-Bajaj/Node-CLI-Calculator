@@ -13,16 +13,16 @@ const { argv } = yargs(process.argv.slice(2))
         })
 
     })
-    .usage('Usage: --operation <operation name>')
+    .usage('Usage: --operation <operation name> <values>')
+    .example("node index.js --operation addition 1 2 3","\nReturns Result = 6")
     .option("operation", {
-        describe: "Operation to perform", type: "string",
+        describe: "Operations available", type: "string",
         choices: ['addition', 'subtraction', 'multiply', 'division'],
         demandOption: true
     })
 
 
-console.log(argv);
-
+printWelcome();
 const operation = argv.operation;
 const operand = argv._;
 
@@ -62,22 +62,14 @@ if (operation === "addition") {
 }
 
 
-async function printHelp() {
-    let helpTemplate = `
-        index usage                                                                        
-                index.js  <flag>
-        
-        --help                                 print this help
-        --operation={OPERATION NAME}           To perform operation
-        ---------[Addition, Substraction, Multiplication, Division]
-    `
+async function printWelcome(result) {
     let chalk = await getChalk()
-    process.stdout.write(
-        chalk.bgCyan.gray.bold(helpTemplate)
-    )
-
+    let welcomeTemplate = `
+        Hi there!,  Node CLI Calculator this side...........
+                Computing.......................\n
+    `
+    process.stdout.write(chalk.bgYellow.gray.bold(welcomeTemplate))
 }
-
 
 async function printResult(result) {
     let chalk = await getChalk()
